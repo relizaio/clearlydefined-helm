@@ -10,23 +10,19 @@ global:
 images:
   service:
     repository: registry.relizahub.com/83d27192-7d06-4d01-a5d6-de4839926da2-public/clearlydefined-service
-    tag: latest
     pullPolicy: Always
   crawler:
     repository: registry.relizahub.com/83d27192-7d06-4d01-a5d6-de4839926da2-public/clearlydefined-crawler
-    tag: latest
     pullPolicy: Always
   mongodb:
-    repository: mongo
-    tag: "5.0.6"
+    repository: mongo8.2.5-noble@sha256:6458b950c6340fb522868118b5cd31b52dad4e2fc7bf341e5732babebc9ae005
     pullPolicy: IfNotPresent
   mongoSeed:
+    # this is disabled by default
     repository: clearlydefined/docker_dev_env_experiment_clearlydefined_mongo_seed
-    tag: latest
     pullPolicy: IfNotPresent
   redis:
-    repository: redis
-    tag: latest
+    repository: redis:8.6.1-alpine3.23@sha256:2afba59292f25f5d1af200496db41bea2c6c816b059f57ae74703a50a03a27d0
     pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -47,9 +43,6 @@ service:
     requests:
       cpu: 500m
       memory: 512Mi
-    limits:
-      cpu: 1000m
-      memory: 1Gi
   
   nodeSelector: {}
   tolerations: []
@@ -74,9 +67,6 @@ crawler:
     requests:
       cpu: 750m
       memory: 512Mi
-    limits:
-      cpu: 1000m
-      memory: 1Gi
   
   nodeSelector: {}
   tolerations: []
@@ -105,9 +95,6 @@ mongodb:
     requests:
       cpu: 250m
       memory: 512Mi
-    limits:
-      cpu: 500m
-      memory: 1Gi
   
   nodeSelector: {}
   tolerations: []
