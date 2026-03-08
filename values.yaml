@@ -15,14 +15,14 @@ images:
     repository: registry.relizahub.com/83d27192-7d06-4d01-a5d6-de4839926da2-public/clearlydefined-crawler
     pullPolicy: Always
   mongodb:
-    repository: mongo8.2.5-noble@sha256:6458b950c6340fb522868118b5cd31b52dad4e2fc7bf341e5732babebc9ae005
+    repository: docker.io/library/mongo8.2.5-noble@sha256:6458b950c6340fb522868118b5cd31b52dad4e2fc7bf341e5732babebc9ae005
     pullPolicy: IfNotPresent
   mongoSeed:
     # this is disabled by default
     repository: clearlydefined/docker_dev_env_experiment_clearlydefined_mongo_seed
     pullPolicy: IfNotPresent
   redis:
-    repository: redis:8.6.1-alpine3.23@sha256:2afba59292f25f5d1af200496db41bea2c6c816b059f57ae74703a50a03a27d0
+    repository: docker.io/library/redis:8.6.1-alpine3.23@sha256:2afba59292f25f5d1af200496db41bea2c6c816b059f57ae74703a50a03a27d0
     pullPolicy: IfNotPresent
 
 imagePullSecrets: []
