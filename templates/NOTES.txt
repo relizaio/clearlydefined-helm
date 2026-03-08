@@ -33,17 +33,15 @@
 5. Redis is available at:
    - Internal: {{ include "clearlydefined.fullname" . }}-redis:{{ .Values.redis.service.port }}
 
-{{- if not .Values.secrets.curationGithubToken }}
+IMPORTANT: This chart requires an existing Kubernetes secret "{{ .Values.existingSecret }}"
+containing at minimum:
+  - CURATION_GITHUB_TOKEN
+  - CRAWLER_GITHUB_TOKEN
 
-WARNING: You have not set the required GitHub tokens!
-Please set the following secrets:
-  - secrets.curationGithubToken
-  - secrets.crawlerGithubToken
-
-You can do this by creating a values file with your secrets or using --set flags:
-  helm upgrade {{ .Release.Name }} . \
-    --set secrets.curationGithubToken="your-token" \
-    --set secrets.crawlerGithubToken="your-token"
-{{- end }}
+Create it before installing:
+  kubectl create secret generic {{ .Values.existingSecret }} \
+    --namespace {{ .Release.Namespace }} \
+    --from-literal=CURATION_GITHUB_TOKEN="your-github-token" \
+    --from-literal=CRAWLER_GITHUB_TOKEN="your-github-token"
 
 For more information, visit: https://docs.clearlydefined.io

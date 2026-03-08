@@ -197,23 +197,10 @@ config:
       containerName: ""
 
 # Secrets configuration
-# These should be provided via --set flags or a separate secrets file
-secrets:
-  # GitHub tokens (required)
-  curationGithubToken: ""
-  crawlerGithubToken: ""
-  
-  # GitLab token (optional - can be random string if not using GitLab)
-  gitlabToken: ""
-  
-  # Crawler webhook token (optional)
-  crawlerWebhookToken: ""
-  
-  # Azure Blob Storage (optional)
-  crawlerAzblobConnectionString: ""
-  
-  # Application Insights (optional)
-  crawlerInsightsConnectionString: ""
+# Reference an existing Kubernetes secret that contains sensitive environment variables.
+# The secret must be created before installing the chart.
+# See INSTALL.md for instructions on creating the secret.
+existingSecret: "clearlydefined-secrets"
 
 # Traefik Ingress configuration
 # Enable one of: useTraefikLe (with Let's Encrypt) or traefikBehindLb (behind load balancer)

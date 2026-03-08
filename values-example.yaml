@@ -1,24 +1,17 @@
 # Example values file for ClearlyDefined Helm Chart
 # Copy this file to my-values.yaml and fill in your actual values
 
-# Required: GitHub tokens
-secrets:
-  # Get a GitHub Personal Access Token from: https://github.com/settings/tokens
-  # Minimal permissions required
-  curationGithubToken: "ghp_your_token_here"
-  crawlerGithubToken: "ghp_your_token_here"
-  
-  # Optional: GitLab token (can be a random string if not using GitLab)
-  gitlabToken: "random-string-or-your-gitlab-token"
-  
-  # Optional: Webhook token for GitHub webhooks
-  # crawlerWebhookToken: "your-webhook-secret"
-  
-  # Optional: Azure Blob Storage (for production deployments)
-  # crawlerAzblobConnectionString: "DefaultEndpointsProtocol=https;AccountName=..."
-  
-  # Optional: Application Insights (for monitoring)
-  # crawlerInsightsConnectionString: "InstrumentationKey=..."
+# PREREQUISITE: Create a Kubernetes secret before installing the chart:
+#
+#   kubectl create secret generic clearlydefined-secrets \
+#     --namespace <your-namespace> \
+#     --from-literal=CURATION_GITHUB_TOKEN="ghp_your_token_here" \
+#     --from-literal=CRAWLER_GITHUB_TOKEN="ghp_your_token_here"
+#
+# See INSTALL.md for the full list of supported secret keys.
+
+# Reference to the existing Kubernetes secret containing GitHub tokens
+existingSecret: "clearlydefined-secrets"
 
 # Optional: Customize image tags
 # images:

@@ -89,36 +89,48 @@ The chart uses the following images by default:
 
 For complete environment variable documentation, see the [ClearlyDefined Installation Guide](https://docs.clearlydefined.io/docs/installation/start).
 
-#### Required Secrets
+#### Secrets (External Kubernetes Secret)
 
-- **`secrets.curationGithubToken`** - GitHub Personal Access Token for curation operations
+This chart does **not** manage secrets directly. Instead, it references an existing Kubernetes secret specified by `existingSecret` in your values (default: `clearlydefined-secrets`).
+
+Create the secret before installing the chart:
+
+```bash
+kubectl create secret generic clearlydefined-secrets \
+  --namespace <your-namespace> \
+  --from-literal=CURATION_GITHUB_TOKEN="ghp_your_token_here" \
+  --from-literal=CRAWLER_GITHUB_TOKEN="ghp_your_token_here"
+```
+
+**Required keys:**
+
+- **`CURATION_GITHUB_TOKEN`** - GitHub PAT with read/write access to your curated data repo
   - Get token from: https://github.com/settings/tokens
-  - Minimal permissions required
-  - Used for reading/writing curations to your GitHub repository
+  - Needs Contents (read/write) and Pull Requests (read/write) permissions on your curated data repo
   - Reference: [ClearlyDefined Docs - Setting up environmental variables](https://docs.clearlydefined.io/docs/installation/start#setting-up-environmental-variables)
 
-- **`secrets.crawlerGithubToken`** - GitHub Personal Access Token for crawler operations
-  - Can use the same token as `curationGithubToken`
-  - Used for accessing GitHub repositories during harvesting
+- **`CRAWLER_GITHUB_TOKEN`** - GitHub PAT with read access for crawling repositories
+  - Can use the same token as `CURATION_GITHUB_TOKEN`
+  - Read-only access is sufficient
   - Reference: [ClearlyDefined Docs - Setting up environmental variables](https://docs.clearlydefined.io/docs/installation/start#setting-up-environmental-variables)
 
-#### Optional Secrets
+**Optional keys:**
 
-- **`secrets.gitlabToken`** - GitLab token
+- **`GITLAB_TOKEN`** - GitLab token
   - Can be a random string if not working with GitLab API
   - Only needed if harvesting from GitLab repositories
   - Reference: [ClearlyDefined Docs](https://docs.clearlydefined.io/docs/installation/start#setting-up-environmental-variables)
 
-- **`secrets.crawlerWebhookToken`** - Webhook authentication token
+- **`CRAWLER_WEBHOOK_TOKEN`** - Webhook authentication token
   - Used to secure GitHub webhook endpoints
   - Reference: [ClearlyDefined Docs - GitHub curation setup](https://docs.clearlydefined.io/docs/installation/start#additional-setup-for-github-curationoptional)
 
-- **`secrets.crawlerAzblobConnectionString`** - Azure Blob Storage connection string
+- **`CRAWLER_AZBLOB_CONNECTION_STRING`** - Azure Blob Storage connection string
   - Only needed if using Azure Blob Storage for harvest data (production deployments)
   - Format: `DefaultEndpointsProtocol=https;AccountName=...;AccountKey=...`
   - TODO: Find specific documentation reference for Azure Blob Storage configuration
 
-- **`secrets.crawlerInsightsConnectionString`** - Application Insights connection string
+- **`CRAWLER_INSIGHTS_CONNECTION_STRING`** - Application Insights connection string
   - Only needed for Azure Application Insights monitoring
   - Format: `InstrumentationKey=...`
   - TODO: Find specific documentation reference for Application Insights configuration

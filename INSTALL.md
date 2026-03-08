@@ -16,7 +16,46 @@ Ensure you have:
 
 Create or fork a repository for your curated data, then configure it in your values file.
 
-### 3. Create Your Values File
+### 3. Create the Kubernetes Secret
+
+The chart requires an existing Kubernetes secret containing GitHub tokens. Create it before installing the chart.
+
+**Required keys:**
+
+| Key | Description | Required |
+|-----|-------------|----------|
+| `CURATION_GITHUB_TOKEN` | GitHub PAT with read/write access to your curated data repo | Yes |
+| `CRAWLER_GITHUB_TOKEN` | GitHub PAT with read access (can be same token as above) | Yes |
+| `GITLAB_TOKEN` | GitLab token, or random string if not using GitLab | No |
+| `CRAWLER_WEBHOOK_TOKEN` | Webhook authentication token | No |
+| `CRAWLER_AZBLOB_CONNECTION_STRING` | Azure Blob Storage connection string | No |
+| `CRAWLER_INSIGHTS_CONNECTION_STRING` | Application Insights connection string | No |
+
+**Create the secret with required keys only:**
+
+```bash
+kubectl create secret generic clearlydefined-secrets \
+  --namespace <your-namespace> \
+  --from-literal=CURATION_GITHUB_TOKEN="ghp_your_token_here" \
+  --from-literal=CRAWLER_GITHUB_TOKEN="ghp_your_token_here"
+```
+
+**Or with all keys:**
+
+```bash
+kubectl create secret generic clearlydefined-secrets \
+  --namespace <your-namespace> \
+  --from-literal=CURATION_GITHUB_TOKEN="ghp_your_token_here" \
+  --from-literal=CRAWLER_GITHUB_TOKEN="ghp_your_token_here" \
+  --from-literal=GITLAB_TOKEN="random-string" \
+  --from-literal=CRAWLER_WEBHOOK_TOKEN="your-webhook-secret" \
+  --from-literal=CRAWLER_AZBLOB_CONNECTION_STRING="DefaultEndpointsProtocol=https;AccountName=..." \
+  --from-literal=CRAWLER_INSIGHTS_CONNECTION_STRING="InstrumentationKey=..."
+```
+
+**Note:** The secret name must match `existingSecret` in your values file (default: `clearlydefined-secrets`).
+
+### 4. Create Your Values File
 
 Copy the example values file:
 
@@ -27,10 +66,8 @@ cp values-example.yaml my-values.yaml
 Edit `my-values.yaml` and configure at minimum:
 
 ```yaml
-# Required: GitHub tokens
-secrets:
-  curationGithubToken: "ghp_your_token_here"
-  crawlerGithubToken: "ghp_your_token_here"
+# Reference your secret (default name shown)
+existingSecret: "clearlydefined-secrets"
 
 # Required: Your curated data repository
 config:
@@ -41,13 +78,13 @@ config:
       branch: "main"
 ```
 
-### 4. Install the Chart
+### 5. Install the Chart
 
 ```bash
 helm install clearlydefined . -f my-values.yaml
 ```
 
-### 5. Verify Installation
+### 6. Verify Installation
 
 ```bash
 # Check all pods are running
@@ -60,7 +97,7 @@ kubectl get svc -l app.kubernetes.io/instance=clearlydefined
 kubectl logs -l app.kubernetes.io/component=service -f
 ```
 
-### 6. Access the Service
+### 7. Access the Service
 
 ```bash
 # Port forward to access locally
@@ -83,10 +120,9 @@ config:
       owner: "your-github-org"
       repo: "curated-data"
       branch: "main"
-
-secrets:
-  curationGithubToken: "ghp_token_with_repo_access"
 ```
+
+Ensure the `CURATION_GITHUB_TOKEN` in your Kubernetes secret has read/write access to this repository.
 
 ### Storage Configuration
 

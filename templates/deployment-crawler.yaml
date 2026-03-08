@@ -14,7 +14,6 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
-        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -52,7 +51,7 @@ spec:
             - configMapRef:
                 name: {{ include "clearlydefined.fullname" . }}-config
             - secretRef:
-                name: {{ include "clearlydefined.fullname" . }}-secrets
+                name: {{ .Values.existingSecret }}
           {{- if .Values.crawler.debug.enabled }}
           command:
             - "node"
