@@ -1,0 +1,17 @@
+apiVersion: v2
+name: clearlydefined
+description: A Helm chart for ClearlyDefined - a service that helps open source projects be more successful through clearly defined project data
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+keywords:
+  - clearlydefined
+  - open-source
+  - licensing
+  - compliance
+home: https://clearlydefined.io
+sources:
+  - https://github.com/relizaio/clearlydefined-service
+  - https://github.com/relizaio/clearlydefined-crawler
+maintainers:
+  - name: Reliza Incorporated (https://reliza.io, https://rearmhq.com)

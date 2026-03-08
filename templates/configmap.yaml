@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "clearlydefined.fullname" . }}-config
+  labels:
+    {{- include "clearlydefined.labels" . | nindent 4 }}
+data:
+  # Curation GitHub Info
+  CURATION_GITHUB_BRANCH: {{ .Values.config.curation.github.branch | quote }}
+  CURATION_GITHUB_OWNER: {{ .Values.config.curation.github.owner | quote }}
+  CURATION_GITHUB_REPO: {{ .Values.config.curation.github.repo | quote }}
+  CURATION_PROVIDER: {{ .Values.config.curation.provider | quote }}
+  
+  # Curation Store Info
+  CURATION_STORE_PROVIDER: {{ .Values.config.curation.store.provider | quote }}
+  CURATION_MONGO_CONNECTION_STRING: {{ .Values.config.curation.store.connectionString | quote }}
+  CURATION_MONGO_DB_NAME: {{ .Values.config.curation.store.dbName | quote }}
+  CURATION_MONGO_COLLECTION_NAME: {{ .Values.config.curation.store.collectionName | quote }}
+  
+  # Definition Store Info
+  DEFINITION_STORE_PROVIDER: {{ .Values.config.definition.store.provider | quote }}
+  DEFINITION_MONGO_CONNECTION_STRING: {{ .Values.config.definition.store.connectionString | quote }}
+  DEFINITION_MONGO_DB_NAME: {{ .Values.config.definition.store.dbName | quote }}
+  DEFINITION_MONGO_COLLECTION_NAME: {{ .Values.config.definition.store.collectionName | quote }}
+  
+  # Harvest Store Info
+  HARVEST_STORE_PROVIDER: {{ .Values.config.harvest.store.provider | quote }}
+  
+  # File Store Location
+  FILE_STORE_LOCATION: {{ .Values.config.fileStore.location | quote }}
+  
+  # Crawler Info
+  CRAWLER_API_URL: {{ .Values.config.crawler.apiUrl | quote }}
+  CRAWLER_DEADLETTER_PROVIDER: {{ .Values.config.crawler.deadletterProvider | quote }}
+  CRAWLER_NAME: {{ .Values.config.crawler.name | quote }}
+  CRAWLER_QUEUE_PROVIDER: {{ .Values.config.crawler.queueProvider | quote }}
+  CRAWLER_STORE_PROVIDER: {{ .Values.config.crawler.storeProvider | quote }}
+  {{- if .Values.config.crawler.host }}
+  CRAWLER_HOST: {{ .Values.config.crawler.host | quote }}
+  {{- end }}
+  {{- if .Values.config.crawler.webhookUrl }}
+  CRAWLER_WEBHOOK_URL: {{ .Values.config.crawler.webhookUrl | quote }}
+  {{- end }}
+  {{- if .Values.config.crawler.queuePrefix }}
+  CRAWLER_QUEUE_PREFIX: {{ .Values.config.crawler.queuePrefix | quote }}
+  {{- end }}
+  {{- if .Values.config.crawler.azblob.containerName }}
+  CRAWLER_AZBLOB_CONTAINER_NAME: {{ .Values.config.crawler.azblob.containerName | quote }}
+  {{- end }}

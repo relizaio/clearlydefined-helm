@@ -1,0 +1,23 @@
+{{- if .Values.crawler.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "clearlydefined.fullname" . }}-crawler
+  labels:
+    {{- include "clearlydefined.crawler.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.crawler.service.type }}
+  ports:
+    - port: {{ .Values.crawler.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+    {{- if .Values.crawler.debug.enabled }}
+    - port: {{ .Values.crawler.debug.port }}
+      targetPort: debug
+      protocol: TCP
+      name: debug
+    {{- end }}
+  selector:
+    {{- include "clearlydefined.crawler.selectorLabels" . | nindent 4 }}
+{{- end }}

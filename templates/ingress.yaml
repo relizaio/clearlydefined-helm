@@ -1,0 +1,72 @@
+{{- if .Values.useTraefikLe }}
+{{- $fullName := include "clearlydefined.fullname" . -}}
+apiVersion: {{ .Values.traefik_crd_api_version }}
+kind: IngressRoute
+metadata:
+  name: {{ $fullName }}-web
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "clearlydefined.labels" . | nindent 4 }}
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`{{ .Values.leHost }}`)
+    kind: Rule
+    services:
+    - name: {{ $fullName }}-service
+      port: {{ .Values.service.service.port }}
+{{- if eq .Values.projectProtocol "https" }}
+    middlewares:
+      - name: {{ $fullName }}-redirect
+{{- end }}
+---
+apiVersion: {{ .Values.traefik_crd_api_version }}
+kind: IngressRoute
+metadata:
+  name: {{ $fullName }}-websecure
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "clearlydefined.labels" . | nindent 4 }}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`{{ .Values.leHost }}`)
+    kind: Rule
+    services:
+    - name: {{ $fullName }}-service
+      port: {{ .Values.service.service.port }}
+  tls:
+    certResolver: le
+---
+apiVersion: {{ .Values.traefik_crd_api_version }}
+kind: Middleware
+metadata:
+  name: {{ $fullName }}-redirect
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "clearlydefined.labels" . | nindent 4 }}
+spec:
+  redirectScheme:
+    scheme: https
+{{- end }}
+{{- if .Values.traefikBehindLb }}
+{{- $fullName := include "clearlydefined.fullname" . -}}
+apiVersion: {{ .Values.traefik_crd_api_version }}
+kind: IngressRoute
+metadata:
+  name: {{ $fullName }}-web
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "clearlydefined.labels" . | nindent 4 }}
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`{{ .Values.leHost }}`)
+    kind: Rule
+    services:
+    - name: {{ $fullName }}-service
+      port: {{ .Values.service.service.port }}
+{{- end }}

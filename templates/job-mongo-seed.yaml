@@ -1,0 +1,36 @@
+{{- if .Values.mongoSeed.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "clearlydefined.fullname" . }}-mongo-seed
+  labels:
+    {{- include "clearlydefined.labels" . | nindent 4 }}
+    app.kubernetes.io/component: mongo-seed
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "5"
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  template:
+    metadata:
+      labels:
+        {{- include "clearlydefined.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: mongo-seed
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      restartPolicy: OnFailure
+      containers:
+        - name: mongo-seed
+          image: "{{ .Values.images.mongoSeed.repository }}:{{ .Values.images.mongoSeed.tag }}"
+          imagePullPolicy: {{ .Values.images.mongoSeed.pullPolicy }}
+          env:
+            - name: MONGODB_HOST
+              value: {{ include "clearlydefined.fullname" . }}-mongodb
+            - name: MONGODB_PORT
+              value: "{{ .Values.mongodb.service.port }}"
+          resources:
+            {{- toYaml .Values.mongoSeed.resources | nindent 12 }}
+{{- end }}

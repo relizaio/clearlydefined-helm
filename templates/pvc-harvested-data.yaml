@@ -1,0 +1,19 @@
+{{- if .Values.harvestedData.persistence.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "clearlydefined.fullname" . }}-harvested-data
+  labels:
+    {{- include "clearlydefined.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.harvestedData.persistence.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.harvestedData.persistence.size }}
+  {{- if .Values.harvestedData.persistence.storageClass }}
+  storageClassName: {{ .Values.harvestedData.persistence.storageClass }}
+  {{- else if .Values.global.storageClass }}
+  storageClassName: {{ .Values.global.storageClass }}
+  {{- end }}
+{{- end }}
