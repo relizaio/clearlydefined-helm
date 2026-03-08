@@ -159,14 +159,26 @@ config.crawler.queueProvider: "memory"
 ```
 
 ### Required User Configuration
-```yaml
-# 1. GitHub tokens (required)
-secrets.curationGithubToken: "your-token"
-secrets.crawlerGithubToken: "your-token"
 
-# 2. Your curated data repository (recommended)
+**1. Create Kubernetes secret (before install):**
+```bash
+kubectl create secret generic clearlydefined-secrets \
+  --namespace <your-namespace> \
+  --from-literal=CURATION_GITHUB_TOKEN="your-token" \
+  --from-literal=CRAWLER_GITHUB_TOKEN="your-token"
+```
+
+**2. Configure values:**
+```yaml
+existingSecret: "clearlydefined-secrets"
 config.curation.github.owner: "your-org"
 config.curation.github.repo: "your-repo"
+
+# Traefik ingress (one of):
+useTraefikLe: true          # with Let's Encrypt
+# traefikBehindLb: true     # behind load balancer
+leHost: "clearlydefined.example.com"
+projectProtocol: "https"
 ```
 
 ## TODO Items in Documentation

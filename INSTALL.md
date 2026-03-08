@@ -76,6 +76,15 @@ config:
       owner: "your-github-username"
       repo: "your-curated-data-repo"
       branch: "main"
+
+# Traefik ingress (choose one option)
+# Option 1: Traefik with Let's Encrypt
+useTraefikLe: true
+leHost: "clearlydefined.example.com"
+projectProtocol: "https"
+# Option 2: Traefik behind load balancer (uncomment instead of above)
+# traefikBehindLb: true
+# leHost: "clearlydefined.example.com"
 ```
 
 ### 5. Install the Chart

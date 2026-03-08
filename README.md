@@ -27,32 +27,49 @@ git clone <repository-url>
 cd clearlydefined-helm
 ```
 
-### 2. Create a values file with your secrets
+### 2. Create the Kubernetes secret
+
+Create a secret containing your GitHub tokens before installing the chart:
+
+```bash
+kubectl create secret generic clearlydefined-secrets \
+  --namespace <your-namespace> \
+  --from-literal=CURATION_GITHUB_TOKEN="ghp_your_token_here" \
+  --from-literal=CRAWLER_GITHUB_TOKEN="ghp_your_token_here"
+```
+
+See the [Secrets](#secrets-external-kubernetes-secret) section below for the full list of supported keys.
+
+### 3. Create a values file
 
 Create a file named `my-values.yaml`:
 
 ```yaml
-secrets:
-  # Required: GitHub tokens
-  curationGithubToken: "your-github-token-here"
-  crawlerGithubToken: "your-github-token-here"
-  
-  # Optional: GitLab token (can be random string if not using GitLab)
-  gitlabToken: "random-string-or-gitlab-token"
+# Reference your secret (must match the name created above)
+existingSecret: "clearlydefined-secrets"
+
+# Configure your own curated data repository
+config:
+  curation:
+    github:
+      owner: "your-github-username"
+      repo: "your-curated-data-repo"
+      branch: "main"
+
+# Traefik ingress (choose one option)
+# Option 1: Traefik with Let's Encrypt
+useTraefikLe: true
+leHost: "clearlydefined.example.com"
+projectProtocol: "https"
+# Option 2: Traefik behind load balancer (uncomment instead of above)
+# traefikBehindLb: true
+# leHost: "clearlydefined.example.com"
 ```
 
-### 3. Install the chart
+### 4. Install the chart
 
 ```bash
 helm install clearlydefined . -f my-values.yaml
-```
-
-Or use `--set` flags:
-
-```bash
-helm install clearlydefined . \
-  --set secrets.curationGithubToken="your-token" \
-  --set secrets.crawlerGithubToken="your-token"
 ```
 
 ## Configuration
