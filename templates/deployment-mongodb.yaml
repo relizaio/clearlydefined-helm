@@ -32,7 +32,7 @@ spec:
         - name: mongodb
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.images.mongodb.repository }}:{{ .Values.images.mongodb.tag }}"
+          image: "{{ .Values.images.mongodb.repository }}"
           imagePullPolicy: {{ .Values.images.mongodb.pullPolicy }}
           ports:
             - name: mongodb

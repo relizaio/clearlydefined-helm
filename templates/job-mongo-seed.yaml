@@ -24,7 +24,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: mongo-seed
-          image: "{{ .Values.images.mongoSeed.repository }}:{{ .Values.images.mongoSeed.tag }}"
+          image: "{{ .Values.images.mongoSeed.repository }}"
           imagePullPolicy: {{ .Values.images.mongoSeed.pullPolicy }}
           env:
             - name: MONGODB_HOST

@@ -15,7 +15,7 @@ images:
     repository: registry.relizahub.com/83d27192-7d06-4d01-a5d6-de4839926da2-public/clearlydefined-crawler
     pullPolicy: Always
   mongodb:
-    repository: docker.io/library/mongo8.2.5-noble@sha256:6458b950c6340fb522868118b5cd31b52dad4e2fc7bf341e5732babebc9ae005
+    repository: docker.io/library/mongo:8.2.5-noble@sha256:6458b950c6340fb522868118b5cd31b52dad4e2fc7bf341e5732babebc9ae005
     pullPolicy: IfNotPresent
   mongoSeed:
     # this is disabled by default
