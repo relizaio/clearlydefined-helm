@@ -91,7 +91,6 @@ spec:
               topologyKey: kubernetes.io/hostname
         {{- end }}
         {{- end }}
-      {{- end }}
       {{- with .Values.crawler.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
