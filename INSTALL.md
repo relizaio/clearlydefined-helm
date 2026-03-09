@@ -26,6 +26,8 @@ The chart requires an existing Kubernetes secret containing GitHub tokens. Creat
 |-----|-------------|----------|
 | `CURATION_GITHUB_TOKEN` | GitHub PAT with read/write access to your curated data repo | Yes |
 | `CRAWLER_GITHUB_TOKEN` | GitHub PAT with read access (can be same token as above) | Yes |
+| `WEBHOOK_GITHUB_SECRET` | Shared secret for GitHub webhook verification (can be arbitrary string) | Yes |
+| `WEBHOOK_CRAWLER_SECRET` | Shared secret for crawler webhook verification (can be arbitrary string) | Yes |
 | `GITLAB_TOKEN` | GitLab token, or random string if not using GitLab | No |
 | `CRAWLER_WEBHOOK_TOKEN` | Webhook authentication token | No |
 | `CRAWLER_AZBLOB_CONNECTION_STRING` | Azure Blob Storage connection string | No |
@@ -37,7 +39,9 @@ The chart requires an existing Kubernetes secret containing GitHub tokens. Creat
 kubectl create secret generic clearlydefined-secrets \
   --namespace <your-namespace> \
   --from-literal=CURATION_GITHUB_TOKEN="ghp_your_token_here" \
-  --from-literal=CRAWLER_GITHUB_TOKEN="ghp_your_token_here"
+  --from-literal=CRAWLER_GITHUB_TOKEN="ghp_your_token_here" \
+  --from-literal=WEBHOOK_GITHUB_SECRET="any-random-string-here" \
+  --from-literal=WEBHOOK_CRAWLER_SECRET="any-random-string-here"
 ```
 
 **Or with all keys:**
@@ -47,6 +51,8 @@ kubectl create secret generic clearlydefined-secrets \
   --namespace <your-namespace> \
   --from-literal=CURATION_GITHUB_TOKEN="ghp_your_token_here" \
   --from-literal=CRAWLER_GITHUB_TOKEN="ghp_your_token_here" \
+  --from-literal=WEBHOOK_GITHUB_SECRET="any-random-string-here" \
+  --from-literal=WEBHOOK_CRAWLER_SECRET="any-random-string-here" \
   --from-literal=GITLAB_TOKEN="random-string" \
   --from-literal=CRAWLER_WEBHOOK_TOKEN="your-webhook-secret" \
   --from-literal=CRAWLER_AZBLOB_CONNECTION_STRING="DefaultEndpointsProtocol=https;AccountName=..." \

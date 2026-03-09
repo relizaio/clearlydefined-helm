@@ -35,7 +35,9 @@ Create a secret containing your GitHub tokens before installing the chart:
 kubectl create secret generic clearlydefined-secrets \
   --namespace <your-namespace> \
   --from-literal=CURATION_GITHUB_TOKEN="ghp_your_token_here" \
-  --from-literal=CRAWLER_GITHUB_TOKEN="ghp_your_token_here"
+  --from-literal=CRAWLER_GITHUB_TOKEN="ghp_your_token_here" \
+  --from-literal=WEBHOOK_GITHUB_SECRET="any-random-string-here" \
+  --from-literal=WEBHOOK_CRAWLER_SECRET="any-random-string-here"
 ```
 
 See the [Secrets](#secrets-external-kubernetes-secret) section below for the full list of supported keys.
@@ -116,7 +118,9 @@ Create the secret before installing the chart:
 kubectl create secret generic clearlydefined-secrets \
   --namespace <your-namespace> \
   --from-literal=CURATION_GITHUB_TOKEN="ghp_your_token_here" \
-  --from-literal=CRAWLER_GITHUB_TOKEN="ghp_your_token_here"
+  --from-literal=CRAWLER_GITHUB_TOKEN="ghp_your_token_here" \
+  --from-literal=WEBHOOK_GITHUB_SECRET="any-random-string-here" \
+  --from-literal=WEBHOOK_CRAWLER_SECRET="any-random-string-here"
 ```
 
 **Required keys:**
@@ -130,6 +134,13 @@ kubectl create secret generic clearlydefined-secrets \
   - Can use the same token as `CURATION_GITHUB_TOKEN`
   - Read-only access is sufficient
   - Reference: [ClearlyDefined Docs - Setting up environmental variables](https://docs.clearlydefined.io/docs/installation/start#setting-up-environmental-variables)
+
+- **`WEBHOOK_GITHUB_SECRET`** - Shared secret for GitHub webhook payload verification
+  - Can be any arbitrary string if not using webhooks yet
+  - Must match the "Secret" field in your GitHub webhook settings when configured
+
+- **`WEBHOOK_CRAWLER_SECRET`** - Shared secret for crawler webhook payload verification
+  - Can be any arbitrary string if not using webhooks yet
 
 **Optional keys:**
 

@@ -22,11 +22,15 @@ IMPORTANT: This chart requires an existing Kubernetes secret "{{ .Values.existin
 containing at minimum:
   - CURATION_GITHUB_TOKEN
   - CRAWLER_GITHUB_TOKEN
+  - WEBHOOK_GITHUB_SECRET
+  - WEBHOOK_CRAWLER_SECRET
 
 Create it before installing:
   kubectl create secret generic {{ .Values.existingSecret }} \
     --namespace {{ .Release.Namespace }} \
     --from-literal=CURATION_GITHUB_TOKEN="your-github-token" \
-    --from-literal=CRAWLER_GITHUB_TOKEN="your-github-token"
+    --from-literal=CRAWLER_GITHUB_TOKEN="your-github-token" \
+    --from-literal=WEBHOOK_GITHUB_SECRET="any-random-string" \
+    --from-literal=WEBHOOK_CRAWLER_SECRET="any-random-string"
 
 For more information, visit: https://docs.clearlydefined.io

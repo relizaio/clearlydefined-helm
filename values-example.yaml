@@ -6,7 +6,9 @@
 #   kubectl create secret generic clearlydefined-secrets \
 #     --namespace <your-namespace> \
 #     --from-literal=CURATION_GITHUB_TOKEN="ghp_your_token_here" \
-#     --from-literal=CRAWLER_GITHUB_TOKEN="ghp_your_token_here"
+#     --from-literal=CRAWLER_GITHUB_TOKEN="ghp_your_token_here" \
+#     --from-literal=WEBHOOK_GITHUB_SECRET="any-random-string-here" \
+#     --from-literal=WEBHOOK_CRAWLER_SECRET="any-random-string-here"
 #
 # See INSTALL.md for the full list of supported secret keys.
 

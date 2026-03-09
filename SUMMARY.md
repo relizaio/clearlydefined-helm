@@ -165,7 +165,9 @@ config.crawler.queueProvider: "memory"
 kubectl create secret generic clearlydefined-secrets \
   --namespace <your-namespace> \
   --from-literal=CURATION_GITHUB_TOKEN="your-token" \
-  --from-literal=CRAWLER_GITHUB_TOKEN="your-token"
+  --from-literal=CRAWLER_GITHUB_TOKEN="your-token" \
+  --from-literal=WEBHOOK_GITHUB_SECRET="any-random-string" \
+  --from-literal=WEBHOOK_CRAWLER_SECRET="any-random-string"
 ```
 
 **2. Configure values:**
