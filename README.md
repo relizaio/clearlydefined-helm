@@ -501,6 +501,24 @@ For more information about ClearlyDefined:
 - [GitHub Repository](https://github.com/clearlydefined)
 - [Website](https://clearlydefined.io)
 
+## Rate Limiting
+Controlled via following env vars on service (not currently implemented in this chart)
+
+Env Var	Purpose	Default
+RATE_LIMIT_WINDOW	General API window in seconds	1
+RATE_LIMIT_MAX	Max requests per window	0 (disabled)
+BATCH_RATE_LIMIT_WINDOW	Batch API window in seconds	1
+BATCH_RATE_LIMIT_MAX	Max batch requests per window	0 (disabled)
+Key detail: When max is 0, rate limiting is disabled — it sets skip: () => true
+
+So by default, rate limiting is off. To enable it, set e.g.:
+
+RATE_LIMIT_WINDOW=300
+RATE_LIMIT_MAX=1000
+BATCH_RATE_LIMIT_WINDOW=300
+BATCH_RATE_LIMIT_MAX=250
+This would allow 1000 requests per 5 minutes globally, and 250 batch POSTs per 5 minutes.
+
 ## License
 
-This Helm chart follows the same license as the ClearlyDefined project.
+MIT.
