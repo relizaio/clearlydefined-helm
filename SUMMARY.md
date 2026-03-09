@@ -167,7 +167,9 @@ kubectl create secret generic clearlydefined-secrets \
   --from-literal=CURATION_GITHUB_TOKEN="your-token" \
   --from-literal=CRAWLER_GITHUB_TOKEN="your-token" \
   --from-literal=WEBHOOK_GITHUB_SECRET="any-random-string" \
-  --from-literal=WEBHOOK_CRAWLER_SECRET="any-random-string"
+  --from-literal=WEBHOOK_CRAWLER_SECRET="any-random-string" \
+  --from-literal=CRAWLER_SERVICE_AUTH_TOKEN="some-shared-token" \
+  --from-literal=CRAWLER_API_AUTH_TOKEN="some-shared-token"
 ```
 
 **2. Configure values:**

@@ -24,6 +24,8 @@ containing at minimum:
   - CRAWLER_GITHUB_TOKEN
   - WEBHOOK_GITHUB_SECRET
   - WEBHOOK_CRAWLER_SECRET
+  - CRAWLER_SERVICE_AUTH_TOKEN  (must match CRAWLER_API_AUTH_TOKEN)
+  - CRAWLER_API_AUTH_TOKEN      (must match CRAWLER_SERVICE_AUTH_TOKEN)
 
 Create it before installing:
   kubectl create secret generic {{ .Values.existingSecret }} \
@@ -31,6 +33,8 @@ Create it before installing:
     --from-literal=CURATION_GITHUB_TOKEN="your-github-token" \
     --from-literal=CRAWLER_GITHUB_TOKEN="your-github-token" \
     --from-literal=WEBHOOK_GITHUB_SECRET="any-random-string" \
-    --from-literal=WEBHOOK_CRAWLER_SECRET="any-random-string"
+    --from-literal=WEBHOOK_CRAWLER_SECRET="any-random-string" \
+    --from-literal=CRAWLER_SERVICE_AUTH_TOKEN="some-shared-token" \
+    --from-literal=CRAWLER_API_AUTH_TOKEN="some-shared-token"
 
 For more information, visit: https://docs.clearlydefined.io

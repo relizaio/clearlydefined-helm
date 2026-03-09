@@ -28,6 +28,8 @@ The chart requires an existing Kubernetes secret containing GitHub tokens. Creat
 | `CRAWLER_GITHUB_TOKEN` | GitHub PAT with read access (can be same token as above) | Yes |
 | `WEBHOOK_GITHUB_SECRET` | Shared secret for GitHub webhook verification (can be arbitrary string) | Yes |
 | `WEBHOOK_CRAWLER_SECRET` | Shared secret for crawler webhook verification (can be arbitrary string) | Yes |
+| `CRAWLER_SERVICE_AUTH_TOKEN` | Token the crawler uses to validate incoming requests (must match `CRAWLER_API_AUTH_TOKEN`) | Yes |
+| `CRAWLER_API_AUTH_TOKEN` | Token the service sends to the crawler (must match `CRAWLER_SERVICE_AUTH_TOKEN`) | Yes |
 | `GITLAB_TOKEN` | GitLab token, or random string if not using GitLab | No |
 | `CRAWLER_WEBHOOK_TOKEN` | Webhook authentication token | No |
 | `CRAWLER_AZBLOB_CONNECTION_STRING` | Azure Blob Storage connection string | No |
@@ -41,7 +43,9 @@ kubectl create secret generic clearlydefined-secrets \
   --from-literal=CURATION_GITHUB_TOKEN="ghp_your_token_here" \
   --from-literal=CRAWLER_GITHUB_TOKEN="ghp_your_token_here" \
   --from-literal=WEBHOOK_GITHUB_SECRET="any-random-string-here" \
-  --from-literal=WEBHOOK_CRAWLER_SECRET="any-random-string-here"
+  --from-literal=WEBHOOK_CRAWLER_SECRET="any-random-string-here" \
+  --from-literal=CRAWLER_SERVICE_AUTH_TOKEN="some-shared-token" \
+  --from-literal=CRAWLER_API_AUTH_TOKEN="some-shared-token"
 ```
 
 **Or with all keys:**
@@ -53,6 +57,8 @@ kubectl create secret generic clearlydefined-secrets \
   --from-literal=CRAWLER_GITHUB_TOKEN="ghp_your_token_here" \
   --from-literal=WEBHOOK_GITHUB_SECRET="any-random-string-here" \
   --from-literal=WEBHOOK_CRAWLER_SECRET="any-random-string-here" \
+  --from-literal=CRAWLER_SERVICE_AUTH_TOKEN="some-shared-token" \
+  --from-literal=CRAWLER_API_AUTH_TOKEN="some-shared-token" \
   --from-literal=GITLAB_TOKEN="random-string" \
   --from-literal=CRAWLER_WEBHOOK_TOKEN="your-webhook-secret" \
   --from-literal=CRAWLER_AZBLOB_CONNECTION_STRING="DefaultEndpointsProtocol=https;AccountName=..." \

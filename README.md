@@ -37,7 +37,9 @@ kubectl create secret generic clearlydefined-secrets \
   --from-literal=CURATION_GITHUB_TOKEN="ghp_your_token_here" \
   --from-literal=CRAWLER_GITHUB_TOKEN="ghp_your_token_here" \
   --from-literal=WEBHOOK_GITHUB_SECRET="any-random-string-here" \
-  --from-literal=WEBHOOK_CRAWLER_SECRET="any-random-string-here"
+  --from-literal=WEBHOOK_CRAWLER_SECRET="any-random-string-here" \
+  --from-literal=CRAWLER_SERVICE_AUTH_TOKEN="some-shared-token" \
+  --from-literal=CRAWLER_API_AUTH_TOKEN="some-shared-token"
 ```
 
 See the [Secrets](#secrets-external-kubernetes-secret) section below for the full list of supported keys.
@@ -120,7 +122,9 @@ kubectl create secret generic clearlydefined-secrets \
   --from-literal=CURATION_GITHUB_TOKEN="ghp_your_token_here" \
   --from-literal=CRAWLER_GITHUB_TOKEN="ghp_your_token_here" \
   --from-literal=WEBHOOK_GITHUB_SECRET="any-random-string-here" \
-  --from-literal=WEBHOOK_CRAWLER_SECRET="any-random-string-here"
+  --from-literal=WEBHOOK_CRAWLER_SECRET="any-random-string-here" \
+  --from-literal=CRAWLER_SERVICE_AUTH_TOKEN="some-shared-token" \
+  --from-literal=CRAWLER_API_AUTH_TOKEN="some-shared-token"
 ```
 
 **Required keys:**
@@ -141,6 +145,14 @@ kubectl create secret generic clearlydefined-secrets \
 
 - **`WEBHOOK_CRAWLER_SECRET`** - Shared secret for crawler webhook payload verification
   - Can be any arbitrary string if not using webhooks yet
+
+- **`CRAWLER_SERVICE_AUTH_TOKEN`** - Token the crawler uses to validate incoming requests
+  - Must match `CRAWLER_API_AUTH_TOKEN`
+  - Can be any arbitrary string, but both values must be identical
+
+- **`CRAWLER_API_AUTH_TOKEN`** - Token the service sends to the crawler for authentication
+  - Must match `CRAWLER_SERVICE_AUTH_TOKEN`
+  - Can be any arbitrary string, but both values must be identical
 
 **Optional keys:**
 
