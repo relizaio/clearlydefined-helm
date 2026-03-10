@@ -1,0 +1,25 @@
+on: [push]
+
+name: Build Component Container Images And Submit Metadata To ReARM
+
+jobs:
+  build-clearlydefined-helm:
+    permissions:
+      contents: write
+      id-token: write
+    name: Build And Push ClearlyDefined Helm Chart
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build And Submit ClearlyDefiend Helm Chart to ReARM
+        uses: relizaio/rearm-helm-action@176f1804ec0bc92dee2bb625f7b2248ad089af62 # v1.5.0
+        with:
+          registry_username: ${{ secrets.DOCKER_LOGIN }}
+          registry_password: ${{ secrets.DOCKER_TOKEN }}
+          registry_host: registry.relizahub.com/83d27192-7d06-4d01-a5d6-de4839926da2-public
+          helm_chart_name: clearlydefined
+          rearm_api_id: ${{ secrets.RELIZA_CLEARLYDEFINED_HELM_API_ID }}
+          rearm_api_key: ${{ secrets.RELIZA_CLEARLYDEFINED_HELM_API_KEY }}
+          rearm_api_url: https://reliza.rearmhq.com
+          path: .
+          enable_sbom: true
+          enable_public_cosign_sigstore: true
